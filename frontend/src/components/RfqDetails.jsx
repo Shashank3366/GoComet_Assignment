@@ -52,7 +52,6 @@ export default function RfqDetails({ rfqId, setView }) {
     try {
       const payload = { 
         ...formData, 
-        quoteValidity: new Date(formData.quoteValidity).toISOString(),
         terms_accepted: termsAccepted 
       };
       const res = await fetch(`${API_URL}/${rfqId}/bid`, {

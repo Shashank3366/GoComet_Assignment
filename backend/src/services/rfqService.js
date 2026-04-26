@@ -115,17 +115,12 @@ const submitBid = async (rfqId, data) => {
     throw new Error('RFQ not found');
   }
 
-  const parsedQuoteValidity = new Date(quoteValidity);
+  // Compare date strings (YYYY-MM-DD) to avoid timezone/hour shifts
+  const validityDateStr = new Date(quoteValidity).toISOString().split('T')[0];
+  const serviceDateStr = new Date(rfq.serviceDate).toISOString().split('T')[0];
   
-  // Normalize both dates to the start of the day (00:00:00) for accurate date-only comparison
-  const validityDateOnly = new Date(parsedQuoteValidity);
-  validityDateOnly.setHours(0, 0, 0, 0);
-  
-  const serviceDateOnly = new Date(rfq.serviceDate);
-  serviceDateOnly.setHours(0, 0, 0, 0);
-
-  if (validityDateOnly < serviceDateOnly) {
-    throw new Error('Quote Validity Date must be greater than or equal to the Service Date');
+  if (validityDateStr < serviceDateStr) {
+    throw new Error(`Quote Validity Date (${validityDateStr}) must be greater than or equal to the Service Date (${serviceDateStr})`);
   }
 
   const now = new Date();

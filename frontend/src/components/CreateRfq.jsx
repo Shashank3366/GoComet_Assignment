@@ -22,10 +22,18 @@ export default function CreateRfq({ setView }) {
     e.preventDefault();
     setLoading(true);
     try {
+      const payload = {
+        ...formData,
+        startTime: new Date(formData.startTime).toISOString(),
+        endTime: new Date(formData.endTime).toISOString(),
+        forcedCloseTime: new Date(formData.forcedCloseTime).toISOString(),
+        serviceDate: new Date(formData.serviceDate).toISOString()
+      };
+      
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
       const data = await res.json();
       if (res.ok) {

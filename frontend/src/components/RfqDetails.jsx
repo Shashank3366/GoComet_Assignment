@@ -50,7 +50,11 @@ export default function RfqDetails({ rfqId, setView }) {
     setSuccessMessage('');
     setErrorMessage('');
     try {
-      const payload = { ...formData, terms_accepted: termsAccepted };
+      const payload = { 
+        ...formData, 
+        quoteValidity: new Date(formData.quoteValidity).toISOString(),
+        terms_accepted: termsAccepted 
+      };
       const res = await fetch(`${API_URL}/${rfqId}/bid`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

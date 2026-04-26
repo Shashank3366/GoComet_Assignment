@@ -7,6 +7,7 @@
     "dev:frontend": "vite frontend",
     "build:frontend": "vite build frontend",
     "build": "npm run build:frontend",
+    "postinstall": "npx prisma generate --schema=backend/prisma/schema.prisma",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "db:push": "npx prisma db push --schema=backend/prisma/schema.prisma"
   },

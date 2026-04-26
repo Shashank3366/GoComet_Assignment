@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const API_URL = 'http://localhost:5000/api/rfqs';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_URL = `${API_BASE_URL}/api/rfqs`;
 
 export default function RfqList({ setView, setSelectedRfqId }) {
   const [rfqs, setRfqs] = useState([]);

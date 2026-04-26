@@ -32,7 +32,7 @@ const createRfq = async (req, res) => {
     if (error.message.includes('Forced Close Time')) {
       return res.status(400).json({ error: error.message });
     }
-    res.status(500).json({ error: 'Failed to create RFQ' });
+    res.status(500).json({ error: error.message || 'Failed to create RFQ' });
   }
 };
 
@@ -51,7 +51,7 @@ const submitBid = async (req, res) => {
     if (clientErrors.includes(error.message)) {
       return res.status(400).json({ error: error.message });
     }
-    res.status(500).json({ error: 'Failed to submit bid' });
+    res.status(500).json({ error: error.message || 'Failed to submit bid' });
   }
 };
 

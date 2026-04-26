@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model RFQ {
+  id                      String   @id @default(uuid())
+  referenceId             String   @unique
+  name                    String
+  startTime               DateTime
+  endTime                 DateTime
+  forcedCloseTime         DateTime
+  serviceDate             DateTime
+  triggerWindowMins       Int
+  extensionDurationMins   Int
+  extensionType           String   // ANY_BID, ANY_RANK, L1_RANK
+  status                  String   // ACTIVE, CLOSED, FORCE_CLOSED
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  bids                    Bid[]
+  logs                    AuctionLog[]
+}
+
+model Supplier {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  bids      Bid[]
+}
+
+model Bid {
+  id                 String   @id @default(uuid())
+  rfqId              String
+  supplierId         String
+  carrierName        String
+  freightCharges     Float
+  originCharges      Float
+  destinationCharges Float
+  totalAmount        Float
+  transitTime        String
+  quoteValidity      DateTime
+  submittedAt        DateTime @default(now())
+  rank               Int      @default(0)
+
+  rfq                RFQ      @relation(fields: [rfqId], references: [id])
+  supplier           Supplier @relation(fields: [supplierId], references: [id])
+}
+
+model AuctionLog {
+  id          String   @id @default(uuid())
+  rfqId       String
+  eventType   String   // BID_SUBMITTED, EXTENSION_TRIGGERED, AUCTION_CLOSED
+  description String
+  timestamp   DateTime @default(now())
+
+  rfq         RFQ      @relation(fields: [rfqId], references: [id])
+}

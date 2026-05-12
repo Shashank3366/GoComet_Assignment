@@ -1,4 +1,4 @@
-# Gocomet RFQ & Auction System
+# British_RFQ_Auction_System
 
 **🚀 [Live Demo](https://go-comet-assignment-s3gt-p7zvqh2r2-dshashank698-9147s-projects.vercel.app/)**
 
